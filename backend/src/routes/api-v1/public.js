@@ -1,8 +1,6 @@
 import express from 'express'
 const router = express.Router()
 
-import apiv1 from './api-v1/index.js'
-
-router.use('/api/v1', apiv1)
+router.get('/public', (req,res) => res.json('Hello Public World'))
 
 export default router
