@@ -4,6 +4,8 @@ import { addPath } from 'app-module-path';
 
 global.__dirname = dirname(fileURLToPath(import.meta.url))
 
+console.log(__dirname);
+
 addPath(__dirname)
 
 import App from './src/index.js'
