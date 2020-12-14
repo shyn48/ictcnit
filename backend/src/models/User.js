@@ -6,8 +6,7 @@ const userSchema = mongoose.Schema(
         name : { type: String, required: true},
         email: { type: String, required: true, unique: true, trim: true, lowercase: true},
         password: { type: String, required: true},
-        isAdmin: { type: Boolean, required: true, default: false},
-        jwt: { type: String, required: true, default: null},
+        isAdmin: { type: Boolean, default: false},
         //roles: []
 
     },
@@ -21,9 +20,17 @@ userSchema.methods.hashPassword = function (password) {
     return hash
 }
 
-userSchema.methods.comparePasswords = function (password) {
+userSchema.methods.matchPassword = function (password) {
     return bcrypt.compareSync(password, this.password)
 }
+
+userSchema.pre('save', async function (next){
+    if (!this.isModified('password')){
+        next()
+    }
+
+    this.hashPassword(this.password)
+})
 
 const User = mongoose.model('User', userSchema)
 
