@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import colors from 'colors'
 import apiRouters from './routes/index.js'
 
+app.use(express.json())
 
 export default class App {
     constructor() {
