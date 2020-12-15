@@ -31,7 +31,7 @@ class userController  {
 
 
     // @desc    Register a new user
-    // @route   POST /api/users
+    // @route   POST /api/users/create
     // @access  Public
     registerUser = asyncHandler(async (req, res) => {
         const { name, email, password } = req.body
