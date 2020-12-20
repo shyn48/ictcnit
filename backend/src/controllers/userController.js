@@ -48,6 +48,8 @@ class userController  {
             throw new Error('چنین کاربری قبلا ثبت نام کرده است')
         }
 
+        
+
         const user = await User.create({
             name, email, password
         })
@@ -86,6 +88,8 @@ class userController  {
           res.status(404)
           throw new Error('چنین کاربری یافت نشد')
         }
+
+
     })
 
     // @desc    Update user profile
