@@ -12,4 +12,10 @@ const commentSchema = Schema(
   { timestamps: true, toJSON: { virtuals: true } }
 );
 
+commentSchema.virtual('replies', {
+  ref: 'Comment',
+  localField: '_id',
+  foreignField: 'parent'
+})
+
 export default mongoose.model('Comment', commentSchema);

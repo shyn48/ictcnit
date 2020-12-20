@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs'
 
+const Schema = mongoose.Schema
+
 const userSchema = mongoose.Schema(
     {
         name : { type: String, required: true},
@@ -29,7 +31,13 @@ userSchema.pre('save', async function (next){
         next()
     }
 
-    this.hashPassword(this.password)
+    this.password = this.hashPassword(this.password)
+})
+
+userSchema.virtual('posts', {
+    ref: 'Post',
+    localField: '_id',
+    foreignField: 'author'
 })
 
 const User = mongoose.model('User', userSchema)

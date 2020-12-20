@@ -5,11 +5,11 @@ const postSchema = mongoose.Schema(
         title: { type: String, required: true},
         description: { type: String, required: true},
         text: { type: String, required: true},
-        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-        categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }]
+        author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
+        //categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: false }]
 
     },
-    { timestamps: true, toJSON: { virtual: true }, discriminationKey: 'type'}
+    { timestamps: true, toJSON: { virtuals: true }, discriminationKey: 'type'}
 )
 
 postSchema.virtual('comments', {
