@@ -6,9 +6,10 @@ import colors from 'colors'
 import apiRouters from './routes/index.js'
 import { notFound, errorHandler } from './middlewares/errorHandler.js'
 import path from 'path'
-
+import cors from 'cors'
 
 app.use(express.json())
+app.use(cors())
 const __dirname = path.resolve()
 
 export default class App {
