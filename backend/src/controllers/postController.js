@@ -36,6 +36,12 @@ class postController {
           return false;
         }
     }
+
+    fetchTopPosts = asyncHandler(async (req, res) => {
+        const posts = await Post.find({}).sort({ date: 1 }).limit(6)
+
+        res.json(posts)
+    })
     
     fetchPosts = asyncHandler(async (req, res) => {
       const pageSize = 10

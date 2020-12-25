@@ -13,6 +13,8 @@ router.route('/')
 .put(protect, admin, postController.updatePost)
 .delete(protect, admin, postController.deletePost)
 
+router.get('/top', postController.fetchTopPosts)
+
 router.route('/:id').get(postController.fetchSinglePost)
 router.post('/comment', protect, postController.comment)
 
