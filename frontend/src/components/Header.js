@@ -7,7 +7,7 @@ const Header = () => {
 
     useEffect(() => {
       window.onscroll = (()=>{
-          window.scrollY > 300 ? setShrink(true) : setShrink(false)
+          window.scrollY > 320 ? setShrink(true) : setShrink(false)
       })
     },[])
 

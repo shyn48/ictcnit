@@ -641,7 +641,139 @@ footer {
   }
 }
 
+.col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+button {
+    outline: 0;
+}
+
+button {
+    cursor: pointer;
+}
+
+button.send {
+    border: 0;
+    color: white;
+    border-radius: 50px;
+    padding: 7px 40px;
+    background: var(--secondary-color);
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+button.send .text {
+    font-size: 20px;
+}
+
+button.send .text.active {
+    transform: translateY(-350%) scale(0);
+    transition: 0.35s cubic-bezier(0.34, -0.61, 1, 0.64);
+}
+
+.send.active {
+    padding: 0px 80px;
+    transition: 0.4s cubic-bezier(0.35, -0.77, 0.67, 1.88);
+}
+
+.send .loader {
+    position: absolute;
+    width: calc(0% - 4px);
+    height: calc(100% - 4px);
+    background: var(--darker-primary-color);
+    left: 2px;
+    top: 2px;
+    border-radius: 50px;
+}
+
+button.send .loader.active {
+    width: calc(100% - 4px);
+    transition: 1.3s ease-in-out;
+    transition-delay: 0.5s;
+}
+
+button.send .done {
+    color: #389168;
+    margin-top: -25px;
+    transform: translateY(300%) scale(0);
+}
+
+button.send .done.active {
+    transform: translateY(0%) scale(1);
+    transition: 0.4s cubic-bezier(0.34, -0.61, 1, 0.64);
+    font-weight: bold;
+    color: #12e2a3;
+}
+
+button.send.finished {
+    padding: 15px 70px;
+    transition: 0.4s cubic-bezier(0.35, -0.77, 0.67, 1.88);
+}
+
+.contact {
+    display: flex;
+    background: var(--darker-primary-color);
+    box-shadow: 0 0 10px;
+    justify-content: space-between;
+    padding: 30px;
+    img {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--darker-primary-color);
+    color: white;
+    font-size: 18px;
+    margin-top: 20px;
+    width: 50%;
+    direction: rtl;
+    label {
+        margin-bottom: 5px;
+    }
+    input {
+        margin-bottom: 15px;
+        padding: 7px 7px;
+        border-radius: 5px;
+        border: 0;
+    }
+
+    textarea {
+        border-radius: 10px;
+    }
+
+}
+
 @media screen and (max-width: 768px) {
+    .contact {
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+
+        button {
+            padding: 10px;
+        }
+
+        textarea {
+            width: 300px;
+        }
+    }
+
     nav {
         height: 45px;
         ul {
