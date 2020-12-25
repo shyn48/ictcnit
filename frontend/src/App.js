@@ -9,6 +9,7 @@ import PersonnelScreen from './screens/PersonnelScreen'
 import RulesScreen from './screens/RulesScreen'
 import ServiceScreen from './screens/ServiceScreen'
 import NewsScreen from './screens/NewsScreen'
+import PeopleScreen from './screens/PeopleScreen'
 // import adminScreen from './screens/admin/adminScreen'
 // import adminCollaborationScreen from './screens/admin/CollaborationScreen'
 // import adminContactScreen from './screens/admin/ContactScreen'
@@ -32,6 +33,7 @@ const App = () => {
                 <Route path="/news" component={NewsScreen} exact />
                 <Route path="/rules" component={RulesScreen} exact />
                 <Route path="/services" component={ServiceScreen} exact />
+                <Route path="/people" component={PeopleScreen} exact />
                 {/* <Route path="/admin" component={adminScreen} exact />
                 <Route path="/admin/collaboration" component={adminCollaborationScreen} exact />
                 <Route path="/admin/contact" component={adminContactScreen} exact />
