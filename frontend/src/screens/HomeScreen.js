@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {Link} from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import CountUp from '../components/CountUp'
 import Slider from '../components/Slider'
 import Status from '../components/Status'
 import PostSlider from '../components/PostSlider'
+import { listTopPosts } from '../actions/postActions'
 
 const HomeScreen = () => {
     //send request to get realtime data everytime? memoize to not waste resources?
     const [scroll, setScroll] = useState(false)
     const [width, setWidth] = useState(window.innerWidth)
+
+    const statsEl = useRef(null)
 
     let slidesPerView = 3;
 
@@ -20,9 +24,27 @@ const HomeScreen = () => {
         slidesPerView = 1;
     }
 
+    const isInViewport = (offset = 0) => {
+        if (!statsEl.current) return false;
+        const top = statsEl.current.getBoundingClientRect().top;
+        return (top + offset) >= 0 && (top - offset) <= window.innerHeight;
+    }
+
+    const dispatch = useDispatch()
+
+    const postList = useSelector((state) => state.postTop)
+
+    const { loading, error, posts } = postList
+
+    useEffect(() => {
+        dispatch(listTopPosts())
+    }, [dispatch])
+
     useEffect(() => {
         window.addEventListener('scroll', () => {
-            window.scrollY > 708 ? setScroll(true) : setScroll(false)
+            if(isInViewport()) {
+                setScroll(true)
+            }
         })
     }, [])
 
@@ -33,44 +55,44 @@ const HomeScreen = () => {
     }, [])
 
     //install html-to-react to make use of ckeditor
-    const posts = [
-        {
-            id: 1,
-            title: 'کسب رتبه اول در مجله تایمز',
-            text: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است. دانشکده‌ها نیز می‌توانند کلیه نرم‌افزارهای تخصصی مورد نیاز خود را با ارسال به مرکز فناوری اطلاعات، به این بانک اضافه نمایند.',
-            description: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است.',
-            imgURL: '/img/ict2.jpg',
-            category: 'اخبار',
-            createdAt: new Date().toDateString(),
-        },
-        {
-            id: 2,
-            title: 'راه اندازی بانک نرم‌افزارهای تخصصی در دانشگاه ',
-            text: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است. دانشکده‌ها نیز می‌توانند کلیه نرم‌افزارهای تخصصی مورد نیاز خود را با ارسال به مرکز فناوری اطلاعات، به این بانک اضافه نمایند.',
-            description: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است.',
-            imgURL: '/img/ict4.jpg',
-            category: 'اخبار',
-            createdAt: new Date().toDateString(),
-        },
-        {
-            id: 3,
-            title: 'راه اندازی بانک نرم‌افزارهای تخصصی در دانشگاه ',
-            text: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است. دانشکده‌ها نیز می‌توانند کلیه نرم‌افزارهای تخصصی مورد نیاز خود را با ارسال به مرکز فناوری اطلاعات، به این بانک اضافه نمایند.',
-            description: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است.',
-            imgURL: '/img/server.png',
-            category: 'اخبار',
-            createdAt: new Date().toDateString(),
-        },
-        {
-            id: 4,
-            title: 'راه اندازی بانک نرم‌افزارهای تخصصی در دانشگاه ',
-            text: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است. دانشکده‌ها نیز می‌توانند کلیه نرم‌افزارهای تخصصی مورد نیاز خود را با ارسال به مرکز فناوری اطلاعات، به این بانک اضافه نمایند.',
-            description: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است.',
-            imgURL: '/img/server1.jpg',
-            category: 'اخبار',
-            createdAt: new Date().toDateString(),
-        },
-    ]
+    // const posts = [
+    //     {
+    //         id: 1,
+    //         title: 'کسب رتبه اول در مجله تایمز',
+    //         text: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است. دانشکده‌ها نیز می‌توانند کلیه نرم‌افزارهای تخصصی مورد نیاز خود را با ارسال به مرکز فناوری اطلاعات، به این بانک اضافه نمایند.',
+    //         description: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است.',
+    //         imgURL: '/img/ict2.jpg',
+    //         category: 'اخبار',
+    //         createdAt: new Date().toDateString(),
+    //     },
+    //     {
+    //         id: 2,
+    //         title: 'راه اندازی بانک نرم‌افزارهای تخصصی در دانشگاه ',
+    //         text: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است. دانشکده‌ها نیز می‌توانند کلیه نرم‌افزارهای تخصصی مورد نیاز خود را با ارسال به مرکز فناوری اطلاعات، به این بانک اضافه نمایند.',
+    //         description: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است.',
+    //         imgURL: '/img/ict4.jpg',
+    //         category: 'اخبار',
+    //         createdAt: new Date().toDateString(),
+    //     },
+    //     {
+    //         id: 3,
+    //         title: 'راه اندازی بانک نرم‌افزارهای تخصصی در دانشگاه ',
+    //         text: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است. دانشکده‌ها نیز می‌توانند کلیه نرم‌افزارهای تخصصی مورد نیاز خود را با ارسال به مرکز فناوری اطلاعات، به این بانک اضافه نمایند.',
+    //         description: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است.',
+    //         imgURL: '/img/server.png',
+    //         category: 'اخبار',
+    //         createdAt: new Date().toDateString(),
+    //     },
+    //     {
+    //         id: 4,
+    //         title: 'راه اندازی بانک نرم‌افزارهای تخصصی در دانشگاه ',
+    //         text: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است. دانشکده‌ها نیز می‌توانند کلیه نرم‌افزارهای تخصصی مورد نیاز خود را با ارسال به مرکز فناوری اطلاعات، به این بانک اضافه نمایند.',
+    //         description: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است.',
+    //         imgURL: '/img/server1.jpg',
+    //         category: 'اخبار',
+    //         createdAt: new Date().toDateString(),
+    //     },
+    // ]
   
     //change to fetch slides from backend rather than making it static
     const slides = [
@@ -127,7 +149,7 @@ const HomeScreen = () => {
             <div className="row bg-cover" style={{padding: '30px',backgroundImage: `url(${window.location.origin}/img/server1.jpg)`}} >
                 <div className="global-overlay"></div>
                 <img src="/img/server.png" alt="server imge" className="server-img" />
-                <div className="stats" style={{padding: '30px'}}>
+                <div ref={statsEl} className="stats" style={{padding: '30px'}}>
                     <div className="stat">
                         <i className="fas fa-user-friends"></i>
                         <p className="big-text">
@@ -159,9 +181,18 @@ const HomeScreen = () => {
             </div>
             <div className="posts-section">
                     <h1 className="light">آخرین اخبار</h1>
-                    <p className="light">جدیدترین اخبار دانشگاه، ایران و جهان را اینجا بخوانید</p>
-                    <PostSlider slidesPerView={slidesPerView} posts={posts} />
-                    <Link to="/news" className="btn">آرشیو اخبار</Link>
+                    { loading ? (
+                        <CountUp>404</CountUp>
+                    ) : error ? (
+                        <div>{error}</div>
+                    ) : (
+                        <>
+                        <p className="light">جدیدترین اخبار دانشگاه، ایران و جهان را اینجا بخوانید</p>
+                        <PostSlider slidesPerView={slidesPerView} posts={posts} />
+                        <Link to="/news" className="btn">آرشیو اخبار</Link>
+                        </>
+                    )
+                    }
                 </div>         
         </div>
     )
