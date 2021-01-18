@@ -10,12 +10,18 @@ import { protect, admin } from '../../middlewares/authMiddleWare.js'
 router.route('/')
 .get(postController.fetchPosts)
 .post(protect, admin, postController.createPost)
+
+router.route('/:id')
 .put(protect, admin, postController.updatePost)
 .delete(protect, admin, postController.deletePost)
+
+router.get('/comments', postController.fetchComments)
+router.post('/comment/approve', postController.approveComment)
+router.post('/comment/delete', postController.deleteComment)
 
 router.get('/top', postController.fetchTopPosts)
 
 router.route('/:id').get(postController.fetchSinglePost)
-router.post('/comment', protect, postController.comment)
+router.post('/:id/comment', postController.comment)
 
 export default router

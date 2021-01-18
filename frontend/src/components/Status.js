@@ -7,7 +7,7 @@ function Status() {
         backend_api: 'online',
         golestan: 'online',
         email: 'online',
-        internet: 'offline'
+        internet: 'online'
     }
 
     const translateToPersian = (key) => {

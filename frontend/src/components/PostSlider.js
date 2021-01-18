@@ -30,7 +30,7 @@ const Slider = ({slidesPerView=3, posts}) => {
                     <div className="text">
                         <span>{post.category} - {moment(post.createdAt, 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD')}</span>
                         <h3>{post.title}</h3>
-                        <p>{post.description}...</p>
+                        <p>{post.description.substr(0,100)}...</p>
                     </div>
                     <Link className="btn post-btn" to={`news/${post.id}`}>مشاهده متن کامل خبر</Link>
                 </div>

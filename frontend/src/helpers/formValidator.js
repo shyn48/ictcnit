@@ -1,59 +1,56 @@
-let errors = 0;
+let errors = [];
 
 
 function check(inputArr) {
     inputArr.forEach(function (input) {
         if (input.value.trim() === '') {
             if (input.name === 'password2') {
-                //errors = [...{ for: 'password2', error: 'فیلد بالا نمیتواند خالی بماند' }]
-                errors++
+                errors.push({ for: 'password2', error: 'فیلد بالا نمیتواند خالی بماند' })
+                
             } else {
-                //errors = [...{ for: `${getFieldName(input)}`, error: 'فیلد بالا نمیتواند خالی بماند' }]
-                errors++
+                errors.push({ for: `${getFieldName(input)}`, error: 'فیلد بالا نمیتواند خالی بماند' })
+                
             }
         } 
     });
 }
 
 function getFieldName(input) {
-    return input.name.charAt(0).toUpperCase() + input.name.slice(1);
+    return input.name
 }
 
 function checkEmail(input) {
+    //eslint-disable-next-line
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!re.test(input.value.trim())) {
-        
-        //errors = [...{ for: 'email', error: 'ایمیل نامعتبر است' }]
-        errors++
-
+        errors.push({ for: 'email', error: 'ایمیل نامعتبر است' })
     }
 }
 
 function checkPassword(input) {
     let re = /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z\d\w\W]{6,}$/;
     if (re.test(input.value.trim())) {
-        input.classList.add('success')
 
     } else {
-        //errors = [...{ for: 'password', error: 'پسورد باید حداقل شش کاراکتر شامل حداقل یک عدد و یک حرف باشد' }]
-        errors++
+        errors.push({ for: 'password', error: 'پسورد باید حداقل شش کاراکتر شامل حداقل یک عدد و یک حرف باشد' })
+        
     }
 }
 
 function checkLength(input, min, max) {
     if (input.value.length < min) {
-        //errors = [...{ for: `${getFieldName(input)}`, error: `این فیلد باید حداقل ${min} کاراکتر باشد` }]
-        errors++
+        errors.push({ for: `${getFieldName(input)}`, error: `این فیلد باید حداقل ${min} کاراکتر باشد` })
+        
     } else if (input.value.length > max) {
-        //errors = [...{ for: `${getFieldName(input)}`, error: `این فیلد باید حداکثر ${max} کاراکتر باشد` }]
-        errors++
+        errors.push({ for: `${getFieldName(input)}`, error: `این فیلد باید حداکثر ${max} کاراکتر باشد` })
+        
     }
 }
 
 function checkPassMatch(input1, input2) {
     if (input1.value !== input2.value) {
-        //errors = [...{ for: 'password', error: 'دو فیلد پسورد مقدار یکسانی ندارند' }]
-        errors++
+        errors.push({ for: 'password', error: 'دو فیلد پسورد مقدار یکسانی ندارند' })
+        
     }
 }
 
@@ -64,9 +61,10 @@ function validateForm(inputArr, password = undefined, password2 = undefined, ema
     email && checkEmail(email)
 
 
-    if (errors > 0) {
-        errors = 0
-        return { pass: false }
+    if (errors.length > 0) {
+        const result = { pass: false, errors }
+        errors = []
+        return result
     }
 
     return { pass: true }

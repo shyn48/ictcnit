@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../actions/userActions'
 
 const Header = () => {
     const [shrink, setShrink] = useState(false)
@@ -11,8 +13,17 @@ const Header = () => {
       })
     },[])
 
+    const dispatch = useDispatch()
+
+    const userLogin = useSelector((state) => state.userLogin)
+    const { userInfo } = userLogin
+
+    const logoutHandler = () => {
+      dispatch(logout())
+    }
+
     return(
-        <React.Fragment>
+      <React.Fragment>
         <header style={{backgroundImage: `url(${window.location.origin}/img/uni.jpg)`}}>
         <div className="overlay">
           <div className="header-text">
@@ -21,9 +32,28 @@ const Header = () => {
           </div>
         </div>
         </header>
-        <nav className={`${collapse ? 'collapse' : ''} ${shrink ? `shrink` : ``}`}>
+        <nav className={`${collapse ? 'collapse' : ''} ${shrink ? `shrink` : ``} navbar`}>
           <button onClick={() =>{ setCollapse(!collapse)}} className="collapse-btn"><i className="fas fa-bars"></i></button>
           <ul>
+            <li className="user-actions">
+              { userInfo ? (
+                <div className="logged-in">
+                    <Link to="/user/panel" className="panel">
+                      پنل کاربری
+                    </Link>
+                    <div className="logout-btn" onClick={(e) => logoutHandler()}>
+                      خروج
+                    </div>
+                </div>
+              ): (
+                <div className="not-logged-in">
+                    <Link to="/login" className="panel">
+                      وارد سایت شوید  
+                    </Link>
+                </div>
+              ) }
+            </li>
+          
             <li className="search-bar">
               <form action="#">
                   <input className={shrink ? `shrink` : ``} placeholder="جستجو" type="text"></input>
@@ -67,10 +97,15 @@ const Header = () => {
             </li>
 
             <li className="animated">
-            <div className="link">
-              <i className="fas fa-landmark" aria-hidden="true" ></i>
-              <span>معرفی مرکز</span>
+              <div className="link">
+                <i className="fas fa-landmark" aria-hidden="true" ></i>
+                <span>معرفی مرکز</span>
               </div>
+
+              <ul className="sub-menu">
+                  <li><Link to="/people">افراد</Link></li>
+                  <li><Link to="/about">معرفی و تاریخچه مرکز</Link></li>
+              </ul>
             </li>
 
             <li className="animated">
@@ -78,13 +113,10 @@ const Header = () => {
               <i className="fas fa-home" aria-hidden="true" ></i>
               <span>صفحه اصلی</span>
               </Link>
-            </li>
-
-                        
-
+            </li>     
           </ul>
         </nav>
-        </React.Fragment>
+      </React.Fragment>
     )
 }
 

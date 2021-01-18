@@ -4,16 +4,76 @@ import Post from '../models/Post.js'
 import validator from 'validator'
 
 class postController {
+    fetchComments = asyncHandler(async (req,res) => {
+        const pageSize = 9
+        const page = Number(req.query.pageNumber) || 1
+  
+          const count = await Comment.countDocuments({ approved: false })
+          const comments = await Comment.find({ approved: false })
+            .populate([
+              { 
+                path: 'post'
+              },
+              {
+                path: 'user'
+              }
+            ])
+            .sort({ createdAt: -1 })
+            .limit(pageSize)
+            .skip(pageSize * (page - 1))
+
+          res.json({ comments, page, pages: Math.ceil(count / pageSize) })
+    })
+
+    approveComment = asyncHandler(async (req,res) => {
+      const { id } = req.body
+
+      const comment = await Comment.findById(id)
+
+      if (comment) {
+        comment.approved = true
+        await comment.save()
+        res.json(comment)
+      } else {
+        res.status(401)
+        throw new Error('خطا در تایید کامنت')
+      }
+
+    })
+
+    deleteComment = asyncHandler(async (req,res) => {
+      const { id } = req.body
+
+      const comment = await Comment.findById(id)
+
+      if (comment) {
+        comment.delete()
+        res.json(comment)
+      } else {
+        res.status(401)
+        throw new Error('خطا در تایید کامنت')
+      }
+    })
+
     comment = asyncHandler(async (req, res) => {
         let status = this.validateComment(req);
         if (!status) throw new Error('invalid data')
 
-        const user = req.user.id
-        const { post, text } = req.body
+        const user = null
+        const { text, unRegsiteredUserName, unRegsiteredEmail } = req.body
 
-        const comment = await Comment.create({
-            user, post, text
-        })
+        const post = await Post.findById(req.params.id)
+
+        let comment = null
+
+        if (!user)
+             comment = await Comment.create({
+              post, text, unRegsiteredUserName, unRegsiteredEmail
+          })
+        else
+            comment = await Comment.create({
+            post, text, user
+          })
 
         if (comment) {
           res.status(201).json(comment)
@@ -26,8 +86,8 @@ class postController {
     validateComment(req) {
         let validationResult = [];
     
-        if (!validator.isLength(req.body.text, { min: 10, max: undefined })) {
-          validationResult.push('متن بدنه نمی‌تواند کمتر از 10 کاراکتر باشد');
+        if (!validator.isLength(req.body.text, { min: 5, max: undefined })) {
+          validationResult.push('متن بدنه نمی‌تواند کمتر از 5 کاراکتر باشد');
         }
     
         if (validationResult.length == 0) {
@@ -38,13 +98,13 @@ class postController {
     }
 
     fetchTopPosts = asyncHandler(async (req, res) => {
-        const posts = await Post.find({}).sort({ date: 1 }).limit(6)
+        const posts = await Post.find({}).sort({ createdAt: -1 }).limit(6)
 
         res.json(posts)
     })
     
     fetchPosts = asyncHandler(async (req, res) => {
-      const pageSize = 10
+      const pageSize = 9
       const page = Number(req.query.pageNumber) || 1
 
       const keyword = req.query.keyword
@@ -58,6 +118,7 @@ class postController {
 
         const count = await Post.countDocuments({ ...keyword })
         const posts = await Post.find({ ...keyword })
+          .sort({ createdAt: -1 })
           .limit(pageSize)
           .skip(pageSize * (page - 1))
           .populate([
@@ -90,10 +151,10 @@ class postController {
       let status = this.validatePostData(req);
       if (!status) throw new Error('invalid data')
 
-      const { title, description, text } = req.body
+      const { title, description, text, imgURL } = req.body
       const user = req.user.id
 
-      const post = new Post({ title, description, text, user})
+      const post = new Post({ title, description, imgURL,text, author: user})
 
       await post.save()
 

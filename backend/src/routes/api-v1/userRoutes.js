@@ -8,7 +8,7 @@ import { admin, protect } from '../../middlewares/authMiddleWare.js'
 
 
 //user routes
-router.post('/create', userController.registerUser)
+router.post('/', userController.registerUser)
 router.post('/login', userController.authUser)
 
 router.route('/profile').get(protect ,userController.getUserProfile).put(userController.updateUserProfile)

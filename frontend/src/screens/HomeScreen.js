@@ -6,6 +6,7 @@ import Slider from '../components/Slider'
 import Status from '../components/Status'
 import PostSlider from '../components/PostSlider'
 import { listTopPosts } from '../actions/postActions'
+import Message from '../components/Message'
 
 const HomeScreen = () => {
     //send request to get realtime data everytime? memoize to not waste resources?
@@ -55,44 +56,6 @@ const HomeScreen = () => {
     }, [])
 
     //install html-to-react to make use of ckeditor
-    // const posts = [
-    //     {
-    //         id: 1,
-    //         title: 'کسب رتبه اول در مجله تایمز',
-    //         text: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است. دانشکده‌ها نیز می‌توانند کلیه نرم‌افزارهای تخصصی مورد نیاز خود را با ارسال به مرکز فناوری اطلاعات، به این بانک اضافه نمایند.',
-    //         description: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است.',
-    //         imgURL: '/img/ict2.jpg',
-    //         category: 'اخبار',
-    //         createdAt: new Date().toDateString(),
-    //     },
-    //     {
-    //         id: 2,
-    //         title: 'راه اندازی بانک نرم‌افزارهای تخصصی در دانشگاه ',
-    //         text: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است. دانشکده‌ها نیز می‌توانند کلیه نرم‌افزارهای تخصصی مورد نیاز خود را با ارسال به مرکز فناوری اطلاعات، به این بانک اضافه نمایند.',
-    //         description: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است.',
-    //         imgURL: '/img/ict4.jpg',
-    //         category: 'اخبار',
-    //         createdAt: new Date().toDateString(),
-    //     },
-    //     {
-    //         id: 3,
-    //         title: 'راه اندازی بانک نرم‌افزارهای تخصصی در دانشگاه ',
-    //         text: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است. دانشکده‌ها نیز می‌توانند کلیه نرم‌افزارهای تخصصی مورد نیاز خود را با ارسال به مرکز فناوری اطلاعات، به این بانک اضافه نمایند.',
-    //         description: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است.',
-    //         imgURL: '/img/server.png',
-    //         category: 'اخبار',
-    //         createdAt: new Date().toDateString(),
-    //     },
-    //     {
-    //         id: 4,
-    //         title: 'راه اندازی بانک نرم‌افزارهای تخصصی در دانشگاه ',
-    //         text: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است. دانشکده‌ها نیز می‌توانند کلیه نرم‌افزارهای تخصصی مورد نیاز خود را با ارسال به مرکز فناوری اطلاعات، به این بانک اضافه نمایند.',
-    //         description: 'با توجه به نیاز دانشجویان به نرم‌افزارهای تخصصی، مرکز فناوری اطلاعات و خدمات رایانه‌ای امکان دانلود این نرم‌افزارها را از آدرس زیر فراهم نموده است.',
-    //         imgURL: '/img/server1.jpg',
-    //         category: 'اخبار',
-    //         createdAt: new Date().toDateString(),
-    //     },
-    // ]
   
     //change to fetch slides from backend rather than making it static
     const slides = [
@@ -154,7 +117,7 @@ const HomeScreen = () => {
                         <i className="fas fa-user-friends"></i>
                         <p className="big-text">
                             { scroll ? (
-                                <CountUp>87</CountUp>
+                                <CountUp>2</CountUp>
                             ) : 0 }
                         </p>
                         <p className="light stat-text">تعداد کاربران ثبت  نام شده</p>
@@ -163,7 +126,7 @@ const HomeScreen = () => {
                         <i className="fas fa-signal"></i>
                         <p className="big-text">
                             { scroll ? (
-                                <CountUp>16</CountUp>
+                                <CountUp>1</CountUp>
                             ) : 0 }
                         </p>
                         <p className="light stat-text">تعداد کاربران آنلاین</p>
@@ -172,7 +135,7 @@ const HomeScreen = () => {
                         <i className="fas fa-code"></i>
                         <p className="big-text">
                             { scroll ? (
-                                <CountUp>1743</CountUp>
+                                <CountUp>3000</CountUp>
                             ) : 0 }
                         </p>
                         <p className="light stat-text">تعداد خط کد نوشته شده در این وبسایت</p>
@@ -182,9 +145,9 @@ const HomeScreen = () => {
             <div className="posts-section">
                     <h1 className="light">آخرین اخبار</h1>
                     { loading ? (
-                        <CountUp>404</CountUp>
+                        <span>Loading...</span>
                     ) : error ? (
-                        <div>{error}</div>
+                        <Message>{error}</Message>
                     ) : (
                         <>
                         <p className="light">جدیدترین اخبار دانشگاه، ایران و جهان را اینجا بخوانید</p>
